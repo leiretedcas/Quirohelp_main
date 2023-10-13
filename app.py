@@ -17,13 +17,11 @@ import asyncio #line:15
 import aiohttp #line:16
 import subprocess
 
-# Instalar las dependencias y PyAudio usando apt-get (para sistemas basados en Debian/Ubuntu)
 subprocess.run(['sudo', 'apt-get', 'update'])
-subprocess.run(['sudo', 'apt-get', 'install', '-y', 'portaudio19-dev'])  # Instala la dependencia de portaudio
+subprocess.run(['sudo', 'apt-get', 'install', '-y', 'portaudio19-dev']) 
 
-# Clonar el repositorio de PyAudio y realizar la instalación
-subprocess.run(['git', 'clone', 'https://github.com/yourusername/yourpaudiorepo.git'])
-subprocess.run(['pip', 'install', './yourpaudiorepo'])  # Instala PyAudio desde el repositorio local
+subprocess.run(['git', 'clone', 'https://github.com/leiretedcas/Quirohelp_main'])
+subprocess.run(['pip', 'install', './Quirohelp_main'])  
 
 auth =aiohttp .BasicAuth ('1234','API')#line:18
 base_url ='https://orva.tedcas.com/api/'#line:19
