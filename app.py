@@ -15,13 +15,6 @@ import requests #line:13
 from requests .auth import HTTPBasicAuth #line:14
 import asyncio #line:15
 import aiohttp #line:16
-import subprocess
-
-subprocess.run(['sudo', 'apt-get', 'update'])
-subprocess.run(['sudo', 'apt-get', 'install', '-y', 'portaudio19-dev']) 
-
-subprocess.run(['git', 'clone', 'https://github.com/leiretedcas/Quirohelp_main'])
-subprocess.run(['pip', 'install', './Quirohelp_main'])  
 
 auth =aiohttp .BasicAuth ('1234','API')#line:18
 base_url ='https://orva.tedcas.com/api/'#line:19
