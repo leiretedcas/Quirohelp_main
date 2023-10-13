@@ -15,6 +15,9 @@ import requests #line:13
 from requests .auth import HTTPBasicAuth #line:14
 import asyncio #line:15
 import aiohttp #line:16
+import vosk
+from vosk import Model, KaldiRecognizer, SetLogLevel
+import sounddevice as sd
 
 auth =aiohttp .BasicAuth ('1234','API')#line:18
 base_url ='https://orva.tedcas.com/api/'#line:19
@@ -438,22 +441,31 @@ def adaptar_salida (O0O0O000000000000 ):#line:456
         O0OOOO0OOO000OO0O =O0O0O000000000000 [1 ].split ("'")#line:462
         OO00O0O0O00OO0OOO =O0OOOO0OOO000OO0O [1 ].split ()#line:463
     return OO00O0O0O00OO0OOO #line:464
-def takeCommand ():#line:466
-    OO0OO00OO0OOOO00O =sr .Recognizer ()#line:467
-    with sr .Microphone ()as OOO00O0O0OOO0OOO0 :#line:468
-        print ("Listening...")#line:469
-        OO0OO00OO0OOOO00O .pause_threshold =1 #line:470
-        OO00OO00OO0OOO0OO =OO0OO00OO0OOOO00O .adjust_for_ambient_noise (OOO00O0O0OOO0OOO0 )#line:471
-        OO00OO00OO0OOO0OO =OO0OO00OO0OOOO00O .listen (OOO00O0O0OOO0OOO0 )#line:472
-    try :#line:473
-        print ("Recognizing...")#line:474
-        OOO0OOO000O00O00O =OO0OO00OO0OOOO00O .recognize_google (OO00OO00OO0OOO0OO ,language ='es-ES')#line:475
-        print (f"User said: {OOO0OOO000O00O00O}\n")#line:476
-    except Exception as O00O0OOO0O0OOO00O :#line:477
-        print (O00O0OOO0O0OOO00O )#line:478
-        print ("Unable to Recognize your voice.")#line:479
-        return "none"#line:480
-    return OOO0OOO000O00O00O #line:481
+
+def takeCommand():
+    model = vosk.Model("vosk-model-small-es-0.42")  
+    recognizer = vosk.KaldiRecognizer(model, 16000)
+
+    print("Listening...")
+    with sd.Microphone(samplerate=16000) as source:
+        print("Say something!")
+        audio_buffer = sd.rec(int(10 * 16000), samplerate=16000, channels=1, dtype="int16")
+        sd.wait()
+        
+        if len(audio_buffer) > 0:
+            if recognizer.AcceptWaveform(audio_buffer):
+                result = recognizer.Result()
+                query = result["text"]
+                print(f"User said: {query}\n")
+                return query
+            else:
+                print("Unable to recognize speech.")
+        else:
+            print("No audio input.")
+            return "none"
+
+    return "none"
+
 app =Flask (__name__ )#line:483
 app .config ['SECRET_KEY']='mysecretkey'#line:484
 IMG_FOLDER =os .path .join ('static','IMG')#line:486
