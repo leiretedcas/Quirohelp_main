@@ -11,6 +11,7 @@ libportaudio2
 numpy
 openpyxl==3.1.2
 pandas
+pyaudio
 requests==2.31.0
 requests-oauthlib==1.3.1
 sounddevice
