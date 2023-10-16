@@ -9,7 +9,6 @@ import inflect #line:7
 nlp =spacy .load ("es_core_news_sm")#line:8
 from inflector import Inflector ,Spanish #line:9
 inflector =Inflector (Spanish )#line:10
-import speech_recognition as sr #line:11
 import os #line:12
 import requests #line:13
 from requests .auth import HTTPBasicAuth #line:14
